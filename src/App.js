@@ -1,28 +1,35 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { Switch, Route } from 'react-router-dom';
+import { ImplicitCallback, SecureRoute } from '@okta/okta-react';
+import MainHeader from "./components/MainHeader";
+import { withStyles } from "@material-ui/core";
+import Home from './pages/Home';
+import ViewWrapper from './components/ViewWrapper';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
+const styles = theme => ({
+  main: {
+    padding: 3 * theme.spacing.unit,
+    [theme.breakpoints.down('xs')]: {
+      padding: 2 * theme.spacing.unit,
+    }
   }
+});
+
+const App = ({ classes }) => {
+  return (
+    <div className="App">
+      <CssBaseline />
+      <MainHeader />
+      <main className={classes.main}>
+        <Switch>
+          <Route exact={true} path="/" component={Home}></Route>
+          <Route exact={true} path="/implicit/callback" component={ImplicitCallback} />
+          <SecureRoute path="/app" component={ViewWrapper} />
+        </Switch>
+      </main>
+    </div>
+  );
 }
 
-export default App;
+export default withStyles(styles)(App);
